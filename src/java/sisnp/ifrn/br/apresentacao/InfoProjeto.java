@@ -7,17 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sisnp.ifrn.br.dominio.Projeto;
-import sisnp.ifrn.br.negocio.BLProjeto;
+import sisnp.ifrn.br.negocio.Fabrica;
+import sisnp.ifrn.br.negocio.MProjetoDocente;
 
 public class InfoProjeto extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         String idProjeto = request.getParameter("idProjeto");
         if (idProjeto!=null && !idProjeto.isEmpty()) {
-            BLProjeto bl = new BLProjeto();
+            MProjetoDocente bl = Fabrica.getMProjetoDocente();
             int id = Integer.parseInt(idProjeto);
-            Projeto projeto = bl.getProjeto(id);
+            Projeto projeto = bl.visaoGeralProjeto(id);
             HttpSession session = request.getSession();
             session.setAttribute("projeto", projeto);
             request.getRequestDispatcher("/viewProjeto.jsp").forward(request, response);
@@ -43,5 +43,4 @@ public class InfoProjeto extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-
 }

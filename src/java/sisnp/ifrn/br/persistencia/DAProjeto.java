@@ -1,7 +1,6 @@
 package sisnp.ifrn.br.persistencia;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,25 +9,11 @@ import java.util.logging.Logger;
 import sisnp.ifrn.br.dominio.Projeto;
 
 public class DAProjeto {
-    
     private Connection conn;
-    private final String DRIVER =  "com.mysql.jdbc.Driver";
-    private final String BANCO = "jdbc:mysql://localhost/sisnp";
-    private final String USER = "root";
-    private final String PASS = "adminadmin";
     
     public DAProjeto() {
         super();
-        try {
-            Class.forName(DRIVER);
-            conn = DriverManager.getConnection(BANCO, USER, PASS);
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-            Logger.getLogger(DAProjeto.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            System.err.println(ex.getMessage());
-            Logger.getLogger(DAProjeto.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        conn = FabricaConexao.getInstancia().getConexao();
     }
     
     public Projeto getProjeto(int idProjeto) {
